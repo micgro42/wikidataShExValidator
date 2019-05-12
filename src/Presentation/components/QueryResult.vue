@@ -2,7 +2,12 @@
 <div>
     <ul>
         <li v-for="entity in entities">
-            <a :href="entity">{{entity}}</a>
+            <a :href="entity.url">{{entity.url}}</a>  <span v-if="entity.status">{{entity.status}}</span>
+            <ul v-if="entity.errors">
+                <li v-for="error in entity.errors">
+                    {{error.type}}: {{error.property}}
+                </li>
+            </ul>
         </li>
     </ul>
 </div>

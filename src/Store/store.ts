@@ -5,13 +5,15 @@ import ShExCParserRequest from '../ShExCParser/ShExCParserRequest';
 import SparqlFetcher from '@/SparqlFetcher/SparqlFetcher';
 import SparqlFetcherRequest from '@/SparqlFetcher/SparqlFetcherRequest';
 import SparqlFetcherResponse from '@/SparqlFetcher/SparqlFetcherResponse';
+import EntityValidator from '@/EntityValidator/EntityValidator';
+import EntityValidatorRequest from '@/EntityValidator/EntityValidatorRequest';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
         Query: '',
-        QueryEntities: [] as string[],
+        QueryEntities: {},
         ShemaParsed: {},
         ShExC: '',
         ShExCParseError: {
@@ -49,6 +51,13 @@ export default new Vuex.Store({
         setQueryEntities(state, payload: { entities: string[] }) {
             state.QueryEntities = payload.entities;
         },
+        setEntityData(state, payload: {id: string, status: string, errors: object}) {
+            state.QueryEntities[payload.id] = {
+                ...state.QueryEntities[payload.id],
+                status: payload.status,
+                errors: payload.errors,
+            };
+        },
         setShExC(state, ShExCText) {
             state.ShExC = ShExCText;
         },
@@ -69,11 +78,40 @@ export default new Vuex.Store({
         },
     },
     actions: {
-        setQuery({commit}, query: string) {
+        setQuery({commit, state}, query: string) {
             commit('setQuery', {query});
             const sparqlFetcher = new SparqlFetcher();
             sparqlFetcher.fetchItems(new SparqlFetcherRequest(query))
-                .then((resp: SparqlFetcherResponse) => commit('setQueryEntities', {entities: resp.entities}));
+                .then((resp: SparqlFetcherResponse) => {
+                    commit('setQueryEntities', {
+                        entities: resp.entities.reduce((carry: object, url: string) => {
+                            const entityID = url.match(/[QPL]\d+/);
+                            if (entityID === null || !entityID[0]) {
+                                console.warn('unexpected match for', url, entityID);
+                                return carry;
+                            }
+                            carry[entityID[0]] = {url};
+                            return carry;
+                        }, {}),
+                    });
+                })
+                .then(async () => {
+                    if (Object.keys(state.QueryEntities).length === 0) {
+                        return;
+                    }
+                    if (state.ShExCParseError.message.length !== 0) {
+                        return;
+                    }
+                    const validator = new EntityValidator(state.ShemaParsed);
+                    for (const entity of Object.keys(state.QueryEntities)) {
+                        const response = await validator.validate(new EntityValidatorRequest(entity));
+                        commit('setEntityData', {
+                            id: entity,
+                            status: response.status,
+                            errors: response.errors,
+                        })
+                    }
+                });
         },
         setShExC({commit}, ShExCText: string) {
             commit('setShExC', ShExCText);
