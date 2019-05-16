@@ -16,6 +16,7 @@ export default new Vuex.Store({
         QueryEntities: {},
         ShemaParsed: {},
         ShExC: '',
+        ShExCParseStatus: '', // FIXME: enum of '', VALID, INVALID, IN_PROGRESS
         ShExCParseError: {
             message: '',
             lineNo: -1,
@@ -37,6 +38,9 @@ export default new Vuex.Store({
         // },
     },
     getters: {
+        getShExCParseStatus(state) {
+            return state.ShExCParseStatus;
+        },
         getShExCParseError(state) {
             return state.ShExCParseError;
         },
@@ -60,6 +64,9 @@ export default new Vuex.Store({
         },
         setShExC(state, ShExCText) {
             state.ShExC = ShExCText;
+        },
+        setShExCParseStatus(state, newStatus: string) {
+            state.ShExCParseStatus = newStatus;
         },
         setShExCError(state, {errorMessage, lineNo}) {
             state.ShExCParseError = {
@@ -109,22 +116,29 @@ export default new Vuex.Store({
                             id: entity,
                             status: response.status,
                             errors: response.errors,
-                        })
+                        });
                     }
                 });
         },
         setShExC({commit}, ShExCText: string) {
             commit('setShExC', ShExCText);
+            if (ShExCText === '') {
+                commit('setShExCParseStatus', '');
+                return;
+            }
+            commit('setShExCParseStatus', 'IN_PROGRESS');
             const parser = new ShExCParser();
             const response = parser.parse(new ShExCParserRequest(ShExCText));
 
             if (response.error) {
+                commit('setShExCParseStatus', 'INVALID');
                 commit('setShExCError', {
                     errorMessage: response.error.message,
                     lineNo: response.error.lineNo,
                 });
                 commit('setParsedSchema', {});
             } else {
+                commit('setShExCParseStatus', 'VALID');
                 commit('clearShExCError');
                 commit('setParsedSchema', response.parsedSchema);
             }

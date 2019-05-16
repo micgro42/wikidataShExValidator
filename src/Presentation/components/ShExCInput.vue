@@ -12,7 +12,7 @@
                 id="ShExC"
                 v-on:change="ShExChanged"
         ></textarea>
-        <div v-if="error.message">
+        <div v-if="parseStatus === 'INVALID'">
             <ShExCErrors/>
         </div>
     </div>
@@ -36,12 +36,24 @@
         computed: {
             // mix the getters into computed with object spread operator
             ...mapGetters({
-                error: 'getShExCParseError',
+                parseStatus: 'getShExCParseStatus',
             }),
             textareaClass() {
                 let className = 'textarea';
-                if (this.$store.getters.getShExCParseError) {
-                    className += ' is-danger';
+                switch (this.$store.getters.getShExCParseStatus) {
+                    case '':
+                        break;
+                    case 'INVALID':
+                        className += ' is-danger';
+                        break;
+                    case 'VALID':
+                        className += ' is-success';
+                        break;
+                    case 'INPROGRESS':
+                        className += 'is-warning';
+                        break;
+                    default:
+                        throw new Error('Unknown parse status: ' + this.$store.getters.getShExCParseStatus);
                 }
 
                 return className;
