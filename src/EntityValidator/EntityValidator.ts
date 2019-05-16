@@ -11,13 +11,13 @@ export default class EntityValidator {
     public async validate(request: EntityValidatorRequest): Promise<EntityValidatorResponse> {
         const entityDataUrl = 'https://www.wikidata.org/wiki/Special:EntityData/' + request.entityId;
         const turtleDataUrl = entityDataUrl + '.ttl';
-        const loaderReturn = Loader.load([], [], [turtleDataUrl], []).then((loaded: any) => {
+        const loaderReturn = Loader.load([], [], [turtleDataUrl]).then((loaded: any) => {
             const wrappedData = Util.makeN3DB(loaded.data);
             const validationResult = Validator.construct(this.parsedSchema).validate(wrappedData, entityDataUrl, this.parsedSchema.start);
             console.log(validationResult);
             return validationResult;
         }).then((promiseRes: any) => {
-            return new EntityValidatorResponse(promiseRes.type, promiseRes.errors)
+            return new EntityValidatorResponse(promiseRes.type, promiseRes.errors);
         });
         return loaderReturn;
     }
