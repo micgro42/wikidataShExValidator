@@ -1,7 +1,10 @@
 <template>
-    <div v-if="error.message">
+    <div
+            v-if="error.message"
+            class="notification is-danger"
+    >
+        <b>Line {{error.lineNo}}:</b>
         <pre>{{error.message}}</pre>
-        <span>line: {{error.lineNo}}</span>
     </div>
 </template>
 

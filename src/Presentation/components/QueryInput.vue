@@ -1,8 +1,12 @@
 <template>
     <div>
-        <label for="query">SPARQL Query</label>
+        <label
+                for="query"
+                class="label"
+        >SPARQL Query</label>
         <textarea
-                rows="50"
+                rows="10"
+                class="textarea"
                 cols="72"
                 name="query"
                 id="query"
