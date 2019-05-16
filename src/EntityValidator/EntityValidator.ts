@@ -5,73 +5,27 @@ import EntityValidatorRequest from '@/EntityValidator/EntityValidatorRequest';
 
 
 export default class EntityValidator {
+    private ENTITY_DATA_URL_BASE = 'https://www.wikidata.org/wiki/Special:EntityData/';
 
     constructor(private parsedSchema: any) {}
 
     public async validate(request: EntityValidatorRequest): Promise<EntityValidatorResponse> {
-        const entityDataUrl = 'https://www.wikidata.org/wiki/Special:EntityData/' + request.entityId;
-        const turtleDataUrl = entityDataUrl + '.ttl';
-        const loaderReturn = Loader.load([], [], [turtleDataUrl]).then((loaded: any) => {
-            const wrappedData = Util.makeN3DB(loaded.data);
-            const validationResult = Validator.construct(this.parsedSchema).validate(wrappedData, entityDataUrl, this.parsedSchema.start);
-            console.log(validationResult);
-            return validationResult;
-        }).then((promiseRes: any) => {
-            return new EntityValidatorResponse(promiseRes.type, promiseRes.errors);
-        });
-        return loaderReturn;
+        const turtleDataUrl = this.ENTITY_DATA_URL_BASE + request.entityId + '.ttl';
+        return Loader.load([], [], [turtleDataUrl])
+            .then((loaded) => this.validateLoadedData(loaded, request.entityId))
+            .then(this.buildResponseFromValidationResult);
+    }
+
+    private validateLoadedData(loaded: any, entityId: string) {
+        const wrappedData = Util.makeN3DB(loaded.data);
+        const entityDataUrl = this.ENTITY_DATA_URL_BASE + entityId;
+        return Validator
+            .construct(this.parsedSchema)
+            .validate(wrappedData, entityDataUrl, this.parsedSchema.start);
+    }
+
+    private buildResponseFromValidationResult(validationResult: any): EntityValidatorResponse {
+        return new EntityValidatorResponse(validationResult.type, validationResult.errors);
     }
 
 }
-
-/*
-{…}
-​
-errors: (2) […]
-​​
-0: {…}
-​​​
-__ob__: Object { value: {…}, dep: {…}, vmCount: 0 }
-​​​
-property: "http://www.wikidata.org/prop/P31"
-​​​
-type: "MissingProperty"
-​​​
-valueExpr: Object { 0: Getter & Setter, 1: Getter & Setter, 2: Getter & Setter, … }
-​​​
-<get property()>: function reactiveGetter()​​​
-<set property()>: function reactiveSetter()​​​
-<get type()>: function reactiveGetter()​​​
-<set type()>: function reactiveSetter()​​​
-<get valueExpr()>: function reactiveGetter()​​​
-<set valueExpr()>: function reactiveSetter()​​​
-<prototype>: Object { … }
-​​
-1: {…}
-​​​
-__ob__: Object { value: {…}, dep: {…}, vmCount: 0 }
-​​​
-property: "http://www.wikidata.org/prop/P569"
-​​​
-type: "MissingProperty"
-​​​
-<get property()>: function reactiveGetter()​​​
-<set property()>: function reactiveSetter()​​​
-<get type()>: function reactiveGetter()​​​
-<set type()>: function reactiveSetter()​​​
-<prototype>: Object { … }
-​​
-__ob__: Object { value: (2) […], dep: {…}, vmCount: 0 }
-​​
-length: 2
-​​
-<prototype>: Object { … }
-​
-node: "https://www.wikidata.org/wiki/Special:EntityData/Q30600575"
-​
-shape: "wikidata-cat"
-​
-type: "Failure"
-​
-<prototype>: Object
-*/
