@@ -23,7 +23,6 @@ class SparqlFetcher {
         if (response.results.bindings.length === 0) {
             return [];
         }
-        const vars = response.head.vars;
         const responseItems = response.results.bindings;
         return responseItems.map((respItem) => {
             for (const key in respItem) {
