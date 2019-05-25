@@ -20,6 +20,7 @@
 
 <script>
     import {mapActions, mapGetters} from 'vuex';
+    import { ShExCParseStatus } from '../../Store/ShExCParseStatus';
     import ShExCErrors from './ShExCErrors';
 
     export default {
@@ -41,15 +42,15 @@
             textareaClass() {
                 let className = 'textarea';
                 switch (this.$store.getters.getShExCParseStatus) {
-                    case '':
+                    case ShExCParseStatus.none:
                         break;
-                    case 'INVALID':
+                    case ShExCParseStatus.invalid:
                         className += ' is-danger';
                         break;
-                    case 'VALID':
+                    case ShExCParseStatus.valid:
                         className += ' is-success';
                         break;
-                    case 'INPROGRESS':
+                    case ShExCParseStatus.inProgress:
                         className += 'is-warning';
                         break;
                     default:

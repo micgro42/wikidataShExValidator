@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import ShExCParser from '../ShExCParser/ShExCParser';
 import ShExCParserRequest from '../ShExCParser/ShExCParserRequest';
+import { ShExCParseStatus } from './ShExCParseStatus';
 import SparqlFetcher from '@/SparqlFetcher/SparqlFetcher';
 import SparqlFetcherRequest from '@/SparqlFetcher/SparqlFetcherRequest';
 import SparqlFetcherResponse from '@/SparqlFetcher/SparqlFetcherResponse';
@@ -16,7 +17,7 @@ export default new Vuex.Store({
         QueryEntities: {},
         ShemaParsed: {},
         ShExC: '',
-        ShExCParseStatus: '', // FIXME: enum of '', VALID, INVALID, IN_PROGRESS
+        ShExCParseStatus: ShExCParseStatus.none,
         ShExCParseError: {
             message: '',
             lineNo: -1,
@@ -38,7 +39,7 @@ export default new Vuex.Store({
         // },
     },
     getters: {
-        getShExCParseStatus(state) {
+        getShExCParseStatus(state): ShExCParseStatus {
             return state.ShExCParseStatus;
         },
         getShExCParseError(state) {
@@ -123,22 +124,22 @@ export default new Vuex.Store({
         setShExC({commit}, ShExCText: string) {
             commit('setShExC', ShExCText);
             if (ShExCText === '') {
-                commit('setShExCParseStatus', '');
+                commit('setShExCParseStatus', ShExCParseStatus.none);
                 return;
             }
-            commit('setShExCParseStatus', 'IN_PROGRESS');
+            commit('setShExCParseStatus', ShExCParseStatus.inProgress);
             const parser = new ShExCParser();
             const response = parser.parse(new ShExCParserRequest(ShExCText));
 
             if (response.error) {
-                commit('setShExCParseStatus', 'INVALID');
+                commit('setShExCParseStatus', ShExCParseStatus.invalid);
                 commit('setShExCError', {
                     errorMessage: response.error.message,
                     lineNo: response.error.lineNo,
                 });
                 commit('setParsedSchema', {});
             } else {
-                commit('setShExCParseStatus', 'VALID');
+                commit('setShExCParseStatus', ShExCParseStatus.valid);
                 commit('clearShExCError');
                 commit('setParsedSchema', response.parsedSchema);
             }
