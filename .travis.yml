@@ -1,0 +1,22 @@
+language: node_js
+node_js:
+  - "11"
+
+install:
+  - yarn install
+
+script:
+  - yarn lint
+  - yarn test:unit
+
+after_success:
+  - yarn build
+
+deploy:
+  - provider: pages
+    skip_cleanup: true
+    local_dir: dist/
+    github_token: $GITHUB_TOKEN
+    verbose: true
+    on:
+      branch: master
