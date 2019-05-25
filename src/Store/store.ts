@@ -8,13 +8,15 @@ import SparqlFetcherRequest from '@/SparqlFetcher/SparqlFetcherRequest';
 import SparqlFetcherResponse from '@/SparqlFetcher/SparqlFetcherResponse';
 import EntityValidator from '@/EntityValidator/EntityValidator';
 import EntityValidatorRequest from '@/EntityValidator/EntityValidatorRequest';
+import EntityInterface from '@/Store/EntityInterface';
+import {ValidationStatus} from '@/Store/ValidationStatus';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
         Query: '',
-        QueryEntities: {},
+        QueryEntities: {} as EntityInterface,
         ShemaParsed: {},
         ShExC: '',
         ShExCParseStatus: ShExCParseStatus.none,
@@ -53,10 +55,10 @@ export default new Vuex.Store({
         setQuery(state, payload: { query: string }) {
             state.Query = payload.query;
         },
-        setQueryEntities(state, payload: { entities: string[] }) {
+        setQueryEntities(state, payload: { entities: EntityInterface }) {
             state.QueryEntities = payload.entities;
         },
-        setEntityData(state, payload: {id: string, status: string, errors: object}) {
+        setEntityData(state, payload: {id: string, status: ValidationStatus, errors: any}) {
             state.QueryEntities[payload.id] = {
                 ...state.QueryEntities[payload.id],
                 status: payload.status,
@@ -92,7 +94,7 @@ export default new Vuex.Store({
             sparqlFetcher.fetchItems(new SparqlFetcherRequest(query))
                 .then((resp: SparqlFetcherResponse) => {
                     commit('setQueryEntities', {
-                        entities: resp.entities.reduce((carry: object, url: string) => {
+                        entities: resp.entities.reduce((carry: EntityInterface, url: string) => {
                             const entityID = url.match(/[QPL]\d+/);
                             if (entityID === null || !entityID[0]) {
                                 console.warn('unexpected match for', url, entityID);
