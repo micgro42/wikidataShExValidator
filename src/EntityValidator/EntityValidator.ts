@@ -20,14 +20,14 @@ export default class EntityValidator {
     private validateLoadedData(loaded: any, nodeUrl: string) {
         const wrappedData = Util.makeN3DB(loaded.data);
         return Validator
-            .construct(this.parsedSchema, { results: "api" })
+            .construct(this.parsedSchema, { results: 'api' })
             .validate(wrappedData, [{node: nodeUrl, shape: Validator.start}]);
     }
 
     private buildResponseFromValidationResult(validationResults: any): EntityValidatorResponse {
         return new EntityValidatorResponse(
             this.getResultStatus(validationResults[0]),
-            this.getResultErrors(validationResults[0])
+            this.getResultErrors(validationResults[0]),
         );
     }
 

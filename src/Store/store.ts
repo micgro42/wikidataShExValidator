@@ -82,6 +82,8 @@ export default new Vuex.Store({
                         entities: resp.entities.reduce((carry: EntityInterface, url: string) => {
                             const entityID = url.match(/[QPL]\d+/);
                             if (entityID === null || !entityID[0]) {
+                                // FIXME: use proper logging!
+                                /* tslint:disable-next-line */
                                 console.warn('unexpected match for', url, entityID);
                                 return carry;
                             }
@@ -101,7 +103,7 @@ export default new Vuex.Store({
                     for (const [id, {url}] of Object.entries(state.QueryEntities)) {
                         const response = await validator.validate(new EntityValidatorRequest(id, url));
                         commit('setEntityData', {
-                            id: id,
+                            id,
                             status: response.status,
                             errors: response.errors,
                         });

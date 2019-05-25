@@ -7,6 +7,6 @@ export default interface EntityInterface {
         errors?: [{
             type: string,
             property: string,
-        }]
+        }],
     };
 }
