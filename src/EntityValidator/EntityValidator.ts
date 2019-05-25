@@ -11,7 +11,7 @@ export default class EntityValidator {
 
     public async validate(request: EntityValidatorRequest): Promise<EntityValidatorResponse> {
         const turtleDataUrl = this.ENTITY_DATA_URL_BASE + request.entityId + '.ttl';
-        return Loader.load([], [], [turtleDataUrl])
+        return Loader.load([], [], [turtleDataUrl], [])
             .then((loaded) => this.validateLoadedData(loaded, request.entityId))
             .then(this.buildResponseFromValidationResult);
     }

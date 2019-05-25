@@ -6,7 +6,7 @@ declare module '@shexjs/loader' {
         shex: string[],
         json: string[],
         turtle: string[],
-        jsonld?: string[],
+        jsonld: string[],
         schemaOptions?: {},
         dataOptions?: any,
     ): Promise<any>;
