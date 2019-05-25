@@ -13,7 +13,7 @@ install:
 
 script:
   - yarn lint
-  - yarn test:unit
+  - yarn test:unit --coverage
   - sonar-scanner
 
 after_success:
