@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import ShExCParser from '../ShExCParser/ShExCParser';
 import ShExCParserRequest from '../ShExCParser/ShExCParserRequest';
-import { ShExCParseStatus } from './ShExCParseStatus';
+import {ShExCParseStatus} from './ShExCParseStatus';
 import SparqlFetcher from '@/SparqlFetcher/SparqlFetcher';
 import SparqlFetcherRequest from '@/SparqlFetcher/SparqlFetcherRequest';
 import SparqlFetcherResponse from '@/SparqlFetcher/SparqlFetcherResponse';
@@ -66,7 +66,7 @@ export default new Vuex.Store({
         setShExC(state, ShExCText) {
             state.ShExC = ShExCText;
         },
-        setShExCParseStatus(state, newStatus: string) {
+        setShExCParseStatus(state, newStatus: ShExCParseStatus) {
             state.ShExCParseStatus = newStatus;
         },
         setShExCError(state, {errorMessage, lineNo}) {
@@ -111,10 +111,10 @@ export default new Vuex.Store({
                         return;
                     }
                     const validator = new EntityValidator(state.ShemaParsed);
-                    for (const entity of Object.keys(state.QueryEntities)) {
-                        const response = await validator.validate(new EntityValidatorRequest(entity));
+                    for (const [id, {url}] of Object.entries(state.QueryEntities)) {
+                        const response = await validator.validate(new EntityValidatorRequest(id, url));
                         commit('setEntityData', {
-                            id: entity,
+                            id: id,
                             status: response.status,
                             errors: response.errors,
                         });

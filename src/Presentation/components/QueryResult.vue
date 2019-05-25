@@ -1,24 +1,24 @@
 <template>
     <div>
         <ul class="list">
-            <li class="list-item" v-for="entity in entities">
-                <a class="is-success" :href="entity.url">{{entity.url}}</a> <span class="is-warning"
-                                                                                  v-if="entity.status">{{entity.status}}</span>
-                <ul class="list" v-if="entity.errors">
-                    <li class="list-item has-text-danger" v-for="error in entity.errors">
-                        {{error.type}}: {{error.property}}
-                    </li>
-                </ul>
-            </li>
+            <EntityListItem
+                    v-for="entity in entities"
+                    v-bind:status="entity.status"
+                    v-bind:url="entity.url"
+                    v-bind:errors="entity.errors"
+                    v-bind:key="entity.url"
+            />
         </ul>
     </div>
 </template>
 
 <script>
     import {mapGetters} from 'vuex';
+    import EntityListItem from './EntityListItem';
 
     export default {
         name: 'QueryResult',
+        components: {EntityListItem},
         computed: {
             // mix the getters into computed with object spread operator
             ...mapGetters({
