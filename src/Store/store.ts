@@ -24,21 +24,6 @@ export default new Vuex.Store({
             message: '',
             lineNo: -1,
         },
-        // ShExCParseError: {
-        //     message: '(15): Parse error; unknown prefix: pX\n' +
-        //         '... STATEMENTS\tpX:P31 @<P31_instance_of_ho\n' +
-        //         '----------------------^',
-        //     lineNo: 16,
-        //     context: '... STATEMENTS	pX:P31 @<P31_instance_of_ho\n----------------------^ string',
-        //     errorOffset: 519,
-        //     errorWidth: 1,
-        //     lloc: {
-        //         first_line: 15,
-        //         last_line: 15,
-        //         first_column: 8,
-        //         last_column: 9,
-        //     },
-        // },
     },
     getters: {
         getShExCParseStatus(state): ShExCParseStatus {
