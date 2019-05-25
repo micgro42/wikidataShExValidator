@@ -2,12 +2,19 @@ language: node_js
 node_js:
   - "11"
 
+addons:
+  sonarcloud:
+    organization: "micgro42-github"
+    token:
+      secure: $SONARCLOUD_TOKEN
+
 install:
   - yarn install
 
 script:
   - yarn lint
   - yarn test:unit
+  - sonar-scanner
 
 after_success:
   - yarn build
