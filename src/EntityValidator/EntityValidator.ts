@@ -42,7 +42,22 @@ export default class EntityValidator {
         if (result.status === 'conformant') {
             return [];
         }
-        return result.appinfo.errors;
+        return result.appinfo.errors.map(this.parseError);
+    }
+
+    private parseError(error: any): {type: string, message: string} {
+        let message;
+        if (error.type === 'MissingProperty') {
+            message = error.property;
+        }
+        if (error.type === 'TypeMismatch') {
+            message = error.errors[0].errors[0];
+        }
+        return {
+            type: error.type,
+            message,
+        };
+
     }
 
 }

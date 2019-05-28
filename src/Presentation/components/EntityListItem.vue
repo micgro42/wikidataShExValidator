@@ -2,12 +2,13 @@
     <li class="list-item">
         <a class="is-success" :href="this.url">{{this.url}}</a>
         <span
-                class="is-warning"
-                v-if="this.status"
+                class="tag is-success"
+                v-if="isConformant"
         >{{this.status}}</span>
         <ul class="list" v-if="hasErrors">
             <li class="list-item has-text-danger" v-for="error in this.errors">
-                {{error.type}}: {{error.property}}
+                <span class="tag is-danger is-medium">{{error.type}}</span>:
+                 {{error.message}}
             </li>
         </ul>
     </li>
@@ -23,6 +24,9 @@
             hasErrors() {
                 return this.status === ValidationStatus.Nonconformant;
             },
+            isConformant() {
+                return this.status === ValidationStatus.Conformant;
+            }
         },
     };
 </script>
