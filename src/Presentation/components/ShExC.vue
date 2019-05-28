@@ -5,7 +5,6 @@
 </template>
 
 <script>
-    import bulma from 'bulma/css/bulma.css';
     import ShExCInput from './ShExCInput';
     import ShExCErrors from './ShExCErrors';
 
