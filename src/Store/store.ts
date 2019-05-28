@@ -10,6 +10,7 @@ import EntityValidatorRequest from '@/EntityValidator/EntityValidatorRequest';
 import EntityInterface from '@/Store/EntityInterface';
 import {ValidationStatus} from '@/Store/ValidationStatus';
 import {ShExCStatus} from '@/Store/ShExCStatus';
+import * as log from 'loglevel';
 
 Vue.use(Vuex);
 
@@ -117,13 +118,11 @@ export default new Vuex.Store({
                     throw error;
                 })
                 .then((ShExCText) => {
-                    console.log(ShExCText);
                     commit('setShExCStatus', ShExCStatus.inProgress);
                     const parser = new ShExCParser();
                     const response = parser.parse(new ShExCParserRequest(ShExCText));
 
                     if (response.error) {
-                        console.log(response.error);
                         commit('setShExCStatus', ShExCStatus.invalid);
                         commit('setShExCError', {
                             errorMessage: response.error.message,
@@ -136,7 +135,7 @@ export default new Vuex.Store({
                         commit('setParsedSchema', response.parsedSchema);
                     }
                 })
-                .catch((error) => console.error(error));
+                .catch((error) => log.error(error));
         },
     },
 });
