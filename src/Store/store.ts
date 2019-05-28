@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import ShExCParser from '../ShExCParser/ShExCParser';
 import ShExCParserRequest from '../ShExCParser/ShExCParserRequest';
-import {ShExCParseStatus} from './ShExCParseStatus';
 import SparqlFetcher from '@/SparqlFetcher/SparqlFetcher';
 import SparqlFetcherRequest from '@/SparqlFetcher/SparqlFetcherRequest';
 import SparqlFetcherResponse from '@/SparqlFetcher/SparqlFetcherResponse';
@@ -10,6 +9,7 @@ import EntityValidator from '@/EntityValidator/EntityValidator';
 import EntityValidatorRequest from '@/EntityValidator/EntityValidatorRequest';
 import EntityInterface from '@/Store/EntityInterface';
 import {ValidationStatus} from '@/Store/ValidationStatus';
+import {ShExCStatus} from '@/Store/ShExCStatus';
 
 Vue.use(Vuex);
 
@@ -19,15 +19,15 @@ export default new Vuex.Store({
         QueryEntities: {} as EntityInterface,
         ShemaParsed: {},
         ShExC: '',
-        ShExCParseStatus: ShExCParseStatus.none,
+        ShExCStatus: ShExCStatus.none,
         ShExCParseError: {
             message: '',
             lineNo: -1,
         },
     },
     getters: {
-        getShExCParseStatus(state): ShExCParseStatus {
-            return state.ShExCParseStatus;
+        getShExCStatus(state): ShExCStatus {
+            return state.ShExCStatus;
         },
         getShExCParseError(state) {
             return state.ShExCParseError;
@@ -43,18 +43,15 @@ export default new Vuex.Store({
         setQueryEntities(state, payload: { entities: EntityInterface }) {
             state.QueryEntities = payload.entities;
         },
-        setEntityData(state, payload: {id: string, status: ValidationStatus, errors: any}) {
+        setEntityData(state, payload: { id: string, status: ValidationStatus, errors: any }) {
             state.QueryEntities[payload.id] = {
                 ...state.QueryEntities[payload.id],
                 status: payload.status,
                 errors: payload.errors,
             };
         },
-        setShExC(state, ShExCText) {
-            state.ShExC = ShExCText;
-        },
-        setShExCParseStatus(state, newStatus: ShExCParseStatus) {
-            state.ShExCParseStatus = newStatus;
+        setShExCStatus(state, newStatus: ShExCStatus) {
+            state.ShExCStatus = newStatus;
         },
         setShExCError(state, {errorMessage, lineNo}) {
             state.ShExCParseError = {
@@ -110,28 +107,36 @@ export default new Vuex.Store({
                     }
                 });
         },
-        setShExC({commit}, ShExCText: string) {
-            commit('setShExC', ShExCText);
-            if (ShExCText === '') {
-                commit('setShExCParseStatus', ShExCParseStatus.none);
-                return;
-            }
-            commit('setShExCParseStatus', ShExCParseStatus.inProgress);
-            const parser = new ShExCParser();
-            const response = parser.parse(new ShExCParserRequest(ShExCText));
+        updateShExC({commit}, url) {
+            commit('setShExCStatus', ShExCStatus.loading);
 
-            if (response.error) {
-                commit('setShExCParseStatus', ShExCParseStatus.invalid);
-                commit('setShExCError', {
-                    errorMessage: response.error.message,
-                    lineNo: response.error.lineNo,
-                });
-                commit('setParsedSchema', {});
-            } else {
-                commit('setShExCParseStatus', ShExCParseStatus.valid);
-                commit('clearShExCError');
-                commit('setParsedSchema', response.parsedSchema);
-            }
+            fetch(url)
+                .then((response) => response.text(), (error) => {
+                    // ToDo: ensure html status and content type
+                    commit('setShExCStatus', ShExCStatus.loadingError);
+                    throw error;
+                })
+                .then((ShExCText) => {
+                    console.log(ShExCText);
+                    commit('setShExCStatus', ShExCStatus.inProgress);
+                    const parser = new ShExCParser();
+                    const response = parser.parse(new ShExCParserRequest(ShExCText));
+
+                    if (response.error) {
+                        console.log(response.error);
+                        commit('setShExCStatus', ShExCStatus.invalid);
+                        commit('setShExCError', {
+                            errorMessage: response.error.message,
+                            lineNo: response.error.lineNo,
+                        });
+                        commit('setParsedSchema', {});
+                    } else {
+                        commit('setShExCStatus', ShExCStatus.valid);
+                        commit('clearShExCError');
+                        commit('setParsedSchema', response.parsedSchema);
+                    }
+                })
+                .catch((error) => console.error(error));
         },
     },
 });
