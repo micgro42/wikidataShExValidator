@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="field">
         <label
                 for="ShExC"
                 class="label"

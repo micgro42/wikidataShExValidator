@@ -1,8 +1,10 @@
 <template>
-    <div id="app">
-        <ShExC/>
-        <QueryWrapper/>
-    </div>
+    <section class="section" id="app">
+        <div class="container">
+            <ShExC/>
+            <QueryWrapper/>
+        </div>
+    </section>
 </template>
 
 <script lang="ts">
