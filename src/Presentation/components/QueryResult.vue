@@ -13,12 +13,12 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex';
+    import { mapGetters } from 'vuex';
     import EntityListItem from './EntityListItem';
 
     export default {
         name: 'QueryResult',
-        components: {EntityListItem},
+        components: { EntityListItem },
         computed: {
             // mix the getters into computed with object spread operator
             ...mapGetters({

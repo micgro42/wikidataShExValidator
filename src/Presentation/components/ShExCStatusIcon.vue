@@ -5,7 +5,8 @@
 </template>
 
 <script>
-    import {ShExCStatus} from '../../Store/ShExCStatus';
+    import { ShExCStatus } from '../../Store/ShExCStatus';
+
     export default {
         name: 'ShExCStatusIcon',
         props: ['status'],
@@ -16,12 +17,12 @@
                     case ShExCStatus.invalid:
                     case ShExCStatus.loadingError:
                         classes.push('has-text-danger');
-                        break
+                        break;
                     case ShExCStatus.valid:
                         classes.push('has-text-success');
-                        break
+                        break;
                     default:
-                        throw new Error('Invalid status for icon: ' + this.$store.getters.getShExCStatus)
+                        throw new Error('Invalid status for icon: ' + this.$store.getters.getShExCStatus);
                 }
 
                 return classes.join(' ');
@@ -32,18 +33,18 @@
                     case ShExCStatus.invalid:
                     case ShExCStatus.loadingError:
                         classes.push('fa-times');
-                        break
+                        break;
                     case ShExCStatus.valid:
                         classes.push('fa-check');
-                        break
+                        break;
                     default:
-                        throw new Error('Invalid status for icon: ' + this.$store.getters.getShExCStatus)
+                        throw new Error('Invalid status for icon: ' + this.$store.getters.getShExCStatus);
                 }
 
                 return classes.join(' ');
             },
         },
-    }
+    };
 </script>
 
 <style scoped>

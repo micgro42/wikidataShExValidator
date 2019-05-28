@@ -1,16 +1,16 @@
+import * as log from 'loglevel';
 import Vue from 'vue';
 import Vuex from 'vuex';
-import ShExCParser from '../ShExCParser/ShExCParser';
-import ShExCParserRequest from '../ShExCParser/ShExCParserRequest';
+import EntityValidator from '@/EntityValidator/EntityValidator';
+import EntityValidatorRequest from '@/EntityValidator/EntityValidatorRequest';
 import SparqlFetcher from '@/SparqlFetcher/SparqlFetcher';
 import SparqlFetcherRequest from '@/SparqlFetcher/SparqlFetcherRequest';
 import SparqlFetcherResponse from '@/SparqlFetcher/SparqlFetcherResponse';
-import EntityValidator from '@/EntityValidator/EntityValidator';
-import EntityValidatorRequest from '@/EntityValidator/EntityValidatorRequest';
 import EntityInterface from '@/Store/EntityInterface';
-import {ValidationStatus} from '@/Store/ValidationStatus';
-import {ShExCStatus} from '@/Store/ShExCStatus';
-import * as log from 'loglevel';
+import { ShExCStatus } from '@/Store/ShExCStatus';
+import { ValidationStatus } from '@/Store/ValidationStatus';
+import ShExCParser from '../ShExCParser/ShExCParser';
+import ShExCParserRequest from '../ShExCParser/ShExCParserRequest';
 
 Vue.use(Vuex);
 

@@ -11,7 +11,7 @@
 
     export default {
         name: 'QueryWrapper',
-        components: {QueryResult, QueryInput},
+        components: { QueryResult, QueryInput },
     };
 </script>
 
