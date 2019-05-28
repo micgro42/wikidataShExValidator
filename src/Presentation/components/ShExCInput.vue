@@ -16,7 +16,7 @@
                     id="ShExCUrl"
                     placeholder="https://www.wikidata.org/wiki/Special:EntitySchemaText/E123"
             >
-            <ShExCStatusIcon v-if="hasIcon" />
+            <ShExCStatusIcon v-if="hasIcon"/>
         </div>
         <div v-if="parseStatus === 'INVALID'">
             <ShExCErrors/>
@@ -25,31 +25,31 @@
 </template>
 
 <script>
-    import { mapActions, mapGetters } from 'vuex'
-    import { ShExCStatus } from '../../Store/ShExCStatus'
-    import ShExCErrors from './ShExCErrors'
-    import ShExCStatusIcon from './ShExCStatusIcon'
+    import { mapActions, mapGetters } from 'vuex';
+    import { ShExCStatus } from '../../Store/ShExCStatus';
+    import ShExCErrors from './ShExCErrors';
+    import ShExCStatusIcon from './ShExCStatusIcon';
 
     export default {
         name: 'ShExCInput',
-        data: function() {
+        data() {
             let ShexCUrl = '';
             const q = this.$route.query;
             if (q.schemaURL) {
                 this.updateShExCInStore(q.schemaURL);
                 ShexCUrl = q.schemaURL;
             }
-            return {ShexCUrl};
+            return { ShexCUrl };
         },
         components: { ShExCStatusIcon, ShExCErrors },
         methods: {
             ...mapActions({
                 updateShExCInStore: 'updateShExC',
             }),
-            ShExChanged () {
+            ShExChanged() {
                 // ToDo: validate before trying to fetch
-                this.$router.push({ query: { schemaURL: this.ShexCUrl } })
-                this.updateShExCInStore(this.ShexCUrl)
+                this.$router.push({ query: { schemaURL: this.ShexCUrl } });
+                this.updateShExCInStore(this.ShexCUrl);
             },
         },
         computed: {
@@ -58,33 +58,33 @@
                 parseStatus: 'getShExCStatus',
             }),
             inputClass() {
-                let className = 'input'
+                let className = 'input';
                 switch (this.$store.getters.getShExCStatus) {
                     case ShExCStatus.none:
                     case ShExCStatus.loading:
-                        break
+                        break;
                     case ShExCStatus.invalid:
                     case ShExCStatus.loadingError:
-                        className += ' is-danger'
-                        break
+                        className += ' is-danger';
+                        break;
                     case ShExCStatus.valid:
-                        className += ' is-success'
-                        break
+                        className += ' is-success';
+                        break;
                     case ShExCStatus.inProgress:
-                        className += 'is-warning'
-                        break
+                        className += 'is-warning';
+                        break;
                     default:
-                        throw new Error('Unknown parse status: ' + this.$store.getters.getShExCStatus)
+                        throw new Error('Unknown parse status: ' + this.$store.getters.getShExCStatus);
                 }
 
-                return className
+                return className;
             },
             controlClass() {
-                let className = 'control'
+                let className = 'control';
                 switch (this.$store.getters.getShExCStatus) {
                     case ShExCStatus.none:
                     case ShExCStatus.inProgress:
-                        break
+                        break;
                     case ShExCStatus.loading:
                         className += ' is-loading';
                         break;
@@ -92,11 +92,11 @@
                     case ShExCStatus.loadingError:
                     case ShExCStatus.valid:
                         className += ' has-icons-right';
-                        break
+                        break;
                     default:
-                        throw new Error('Unknown parse status: ' + this.$store.getters.getShExCStatus)
+                        throw new Error('Unknown parse status: ' + this.$store.getters.getShExCStatus);
                 }
-                return className
+                return className;
             },
             hasIcon() {
                 return [
@@ -104,10 +104,10 @@
                     ShExCStatus.valid,
                     ShExCStatus.invalid,
                 ].includes(this.$store.getters.getShExCStatus);
-            }
+            },
 
         },
-    }
+    };
 </script>
 
 <style scoped>
