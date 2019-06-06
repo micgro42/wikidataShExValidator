@@ -12,7 +12,7 @@
         props: ['status'],
         computed: {
             wrapperClass() {
-                let classes = ['icon', 'is-small', 'is-right'];
+                const classes = ['icon', 'is-small', 'is-right'];
                 switch (this.$store.getters.getShExCStatus) {
                     case ShExCStatus.invalid:
                     case ShExCStatus.loadingError:
@@ -28,7 +28,7 @@
                 return classes.join(' ');
             },
             iconClass() {
-                let classes = ['fas'];
+                const classes = ['fas'];
                 switch (this.$store.getters.getShExCStatus) {
                     case ShExCStatus.invalid:
                     case ShExCStatus.loadingError:
