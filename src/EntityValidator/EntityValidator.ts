@@ -1,27 +1,20 @@
 import {Validator, Util} from '@shexjs/core';
-import Loader from '@shexjs/loader';
 import EntityValidatorResponse from '@/EntityValidator/EntityValidatorResponse';
 import EntityValidatorRequest from '@/EntityValidator/EntityValidatorRequest';
 import {ValidationStatus} from '@/Store/ValidationStatus';
 
 
 export default class EntityValidator {
-    private ENTITY_DATA_URL_BASE = 'https://www.wikidata.org/wiki/Special:EntityData/';
 
     constructor(private parsedSchema: any) {}
 
     public async validate(request: EntityValidatorRequest): Promise<EntityValidatorResponse> {
-        const turtleDataUrl = this.ENTITY_DATA_URL_BASE + request.entityId + '.ttl';
-        return Loader.load([], [], [turtleDataUrl], [])
-            .then((loaded) => this.validateLoadedData(loaded, request.entityUrl))
-            .then(this.buildResponseFromValidationResult.bind(this));
-    }
-
-    private validateLoadedData(loaded: any, nodeUrl: string) {
-        const wrappedData = Util.makeN3DB(loaded.data);
-        return Validator
-            .construct(this.parsedSchema, { results: 'api' })
-            .validate(wrappedData, [{node: nodeUrl, shape: Validator.start}]);
+        const queryDB = Util.makeQueryDB('https://query.wikidata.org/sparql');
+        return new Promise((resolve) => {
+            resolve(Validator
+                .construct(this.parsedSchema, {results: 'api'})
+                .validate(queryDB, [{node: request.entityUrl, shape: Validator.start}]));
+        }).then(this.buildResponseFromValidationResult.bind(this));
     }
 
     private buildResponseFromValidationResult(validationResults: any): EntityValidatorResponse {
