@@ -14,7 +14,14 @@ export default class EntityValidator {
             resolve(Validator
                 .construct(this.parsedSchema, {results: 'api'})
                 .validate(queryDB, [{node: request.entityUrl, shape: Validator.start}]));
-        }).then(this.buildResponseFromValidationResult.bind(this));
+        }).then(this.buildResponseFromValidationResult.bind(this))
+            .catch((reason) => {
+                // This might happen if the ShExC has no "start" directive
+                return new EntityValidatorResponse(
+                    ValidationStatus.Nonconformant,
+                    reason,
+                );
+            });
     }
 
     private buildResponseFromValidationResult(validationResults: any): EntityValidatorResponse {
