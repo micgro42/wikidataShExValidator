@@ -16,6 +16,8 @@ declare module '@shexjs/core' {
          * emulate N3Store().getQuads() with additional parm.
          */
         makeQueryDB(endpoint: string, queryTracker?: any): any;
+
+        errsToSimple(val: any, node?: any, shape?: any): string[]
     };
 
     /* tslint:disable-next-line */

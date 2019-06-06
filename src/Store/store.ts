@@ -44,11 +44,11 @@ export default new Vuex.Store({
         setQueryEntities(state, payload: { entities: EntityInterface }) {
             state.QueryEntities = payload.entities;
         },
-        setEntityData(state, payload: { id: string, status: ValidationStatus, errors: any }) {
+        setEntityData(state, payload: { id: string, status: ValidationStatus, error: any }) {
             state.QueryEntities[payload.id] = {
                 ...state.QueryEntities[payload.id],
                 status: payload.status,
-                errors: payload.errors,
+                error: payload.error,
             };
         },
         setShExCStatus(state, newStatus: ShExCStatus) {
@@ -103,7 +103,7 @@ export default new Vuex.Store({
                         commit('setEntityData', {
                             id,
                             status: response.status,
-                            errors: response.errors,
+                            error: response.errorMessage,
                         });
                     }
                 });

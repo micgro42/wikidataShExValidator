@@ -5,7 +5,7 @@
                     v-for="entity in entities"
                     v-bind:status="entity.status"
                     v-bind:url="entity.url"
-                    v-bind:errors="entity.errors"
+                    v-bind:error="entity.error"
                     v-bind:key="entity.url"
             />
         </ul>

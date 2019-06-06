@@ -31,26 +31,11 @@ export default class EntityValidator {
         return ValidationStatus.Nonconformant;
     }
 
-    private getResultErrors(result: any) {
+    private getResultErrors(result: any): string {
         if (result.status === 'conformant') {
-            return [];
+            return '';
         }
-        return result.appinfo.errors.map(this.parseError);
-    }
-
-    private parseError(error: any): {type: string, message: string} {
-        let message;
-        if (error.type === 'MissingProperty') {
-            message = error.property;
-        }
-        if (error.type === 'TypeMismatch') {
-            message = error.errors[0].errors[0];
-        }
-        return {
-            type: error.type,
-            message,
-        };
-
+        return Util.errsToSimple(result.appinfo).join('\n');
     }
 
 }

@@ -5,12 +5,7 @@
                 class="tag is-success"
                 v-if="isConformant"
         >{{this.status}}</span>
-        <ul class="list" v-if="hasErrors">
-            <li class="list-item has-text-danger" v-for="error in this.errors">
-                <span class="tag is-danger is-medium">{{error.type}}</span>:
-                {{error.message}}
-            </li>
-        </ul>
+        <pre v-if="hasErrors">{{error}}</pre>
     </li>
 </template>
 
@@ -19,7 +14,7 @@
 
     export default {
         name: 'EntityListItem',
-        props: ['url', 'status', 'errors'],
+        props: ['url', 'status', 'error'],
         computed: {
             hasErrors() {
                 return this.status === ValidationStatus.Nonconformant;
