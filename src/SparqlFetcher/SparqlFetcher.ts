@@ -8,7 +8,18 @@ class SparqlFetcher {
     public async fetchItems(request: SparqlFetcherRequest): Promise<SparqlFetcherResponse> {
 
         const apiResponse = await fetch(this.QUERY_URL + encodeURIComponent(request.query))
-            .then((response) => {
+            .then(async (response) => {
+                if (response.status !== 200 ) {
+                    const sparqlErrorText = await response.text();
+                    // tslint:disable-next-line:quotemark
+                    const mainErrorLines = sparqlErrorText.split("\n").filter((line) => {
+                        return line.includes('MalformedQueryException');
+                    });
+                    if (mainErrorLines.length) {
+                        throw Error(mainErrorLines[0]);
+                    }
+                    throw Error(sparqlErrorText);
+                }
                 return response.json();
             })
             .then((items) => {

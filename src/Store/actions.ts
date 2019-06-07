@@ -15,6 +15,7 @@ export default {
     setQuery({commit, state}: {commit: Commit, state: StateInterface}, query: string) {
         commit('setQuery', {query});
         commit('setQueryEntities', { entities: {} });
+        commit('setQueryError', '');
         const sparqlFetcher = new SparqlFetcher();
         sparqlFetcher.fetchItems(new SparqlFetcherRequest(query))
             .then((resp: SparqlFetcherResponse) => {
@@ -46,7 +47,11 @@ export default {
                         error: response.errorMessage,
                     });
                 }
-            });
+            })
+            .catch( (reason) => {
+                commit('setQueryError', reason);
+            })
+        ;
     },
     updateShExC({commit}: {commit: Commit}, url: string) {
         commit('setShExCStatus', ShExCStatus.loading);

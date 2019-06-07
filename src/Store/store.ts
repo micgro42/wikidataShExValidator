@@ -12,6 +12,7 @@ export default new Vuex.Store({
     state: {
         Query: '',
         QueryEntities: {},
+        QueryError: '',
         ShemaParsed: {},
         ShExC: '',
         ShExCStatus: ShExCStatus.none,
@@ -27,6 +28,9 @@ export default new Vuex.Store({
         getShExCParseError(state) {
             return state.ShExCParseError;
         },
+        getQueryError(state) {
+            return state.QueryError;
+        },
         getQueryEntities(state) {
             return state.QueryEntities;
         },
@@ -40,6 +44,9 @@ export default new Vuex.Store({
         },
         setQueryEntities(state, payload: { entities: EntityInterface }) {
             state.QueryEntities = payload.entities;
+        },
+        setQueryError(state, errorMsg) {
+            state.QueryError = errorMsg;
         },
         setEntityData(state, payload: { id: string, status: ValidationStatus, error: any }) {
             state.QueryEntities[payload.id] = {

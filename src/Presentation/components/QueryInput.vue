@@ -33,11 +33,14 @@ WHERE
                 Fetch Entites
             </button>
         </div>
+        <div v-if="getQueryError" class="notification is-danger">
+            <pre>{{getQueryError}}</pre>
+        </div>
     </div>
 </template>
 
 <script>
-    import {mapActions} from 'vuex';
+    import {mapActions, mapGetters} from 'vuex';
 
     export default {
         name: 'QueryInput',
@@ -50,6 +53,13 @@ WHERE
             },
             ...mapActions({
                 updateQueryInStore: 'setQuery',
+            }),
+        },
+        computed: {
+            // mix the getters into computed with object spread operator
+            ...mapGetters({
+                parseStatus: 'getShExCStatus',
+                getQueryError: 'getQueryError',
             }),
         },
     };
