@@ -5,6 +5,10 @@
                 class="tag is-success"
                 v-if="isConformant"
         >{{this.status}}</span>
+        <span
+                class="tag is-danger"
+                v-if="hasErrors"
+        >{{this.status}}</span>
         <pre v-if="hasErrors">{{error}}</pre>
     </li>
 </template>
