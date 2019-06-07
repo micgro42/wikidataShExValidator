@@ -30,6 +30,9 @@ export default new Vuex.Store({
         getQueryEntities(state) {
             return state.QueryEntities;
         },
+        getQueryEntitiesLength(state) {
+            return Object.keys(state.QueryEntities).length;
+        },
     },
     mutations: {
         setQuery(state, payload: { query: string }) {
