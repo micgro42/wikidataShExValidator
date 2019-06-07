@@ -11,13 +11,14 @@ import { ShExCStatus } from '@/Store/ShExCStatus';
 import { ValidationStatus } from '@/Store/ValidationStatus';
 import ShExCParser from '../ShExCParser/ShExCParser';
 import ShExCParserRequest from '../ShExCParser/ShExCParserRequest';
+import StateInterface from '@/Store/StateInterface';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
         Query: '',
-        QueryEntities: {} as EntityInterface,
+        QueryEntities: {},
         ShemaParsed: {},
         ShExC: '',
         ShExCStatus: ShExCStatus.none,
@@ -25,7 +26,7 @@ export default new Vuex.Store({
             message: '',
             lineNo: -1,
         },
-    },
+    } as StateInterface,
     getters: {
         getShExCStatus(state): ShExCStatus {
             return state.ShExCStatus;
