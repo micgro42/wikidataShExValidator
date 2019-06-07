@@ -17,6 +17,12 @@
                 name="query"
                 id="query"
                 v-model="Query"
+                placeholder="#Cats
+SELECT ?item
+WHERE
+{
+  ?item wdt:P31 wd:Q146.
+}"
         ></textarea>
         </div>
         <div class="control">
