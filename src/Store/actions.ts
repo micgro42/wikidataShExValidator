@@ -14,6 +14,7 @@ import StateInterface from '@/Store/StateInterface';
 export default {
     setQuery({commit, state}: {commit: Commit, state: StateInterface}, query: string) {
         commit('setQuery', {query});
+        commit('setQueryEntities', { entities: {} });
         const sparqlFetcher = new SparqlFetcher();
         sparqlFetcher.fetchItems(new SparqlFetcherRequest(query))
             .then((resp: SparqlFetcherResponse) => {
