@@ -43,7 +43,6 @@
             }),
         },
     };
-    // https://query.wikidata.org/sparql?query=
 </script>
 
 <style scoped>

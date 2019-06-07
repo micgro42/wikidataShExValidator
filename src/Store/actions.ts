@@ -21,9 +21,7 @@ export default {
                     entities: resp.entities.reduce((carry: EntityInterface, url: string) => {
                         const entityID = url.match(/[QPL]\d+/);
                         if (entityID === null || !entityID[0]) {
-                            // FIXME: use proper logging!
-                            /* tslint:disable-next-line */
-                            console.warn('unexpected match for', url, entityID);
+                            log.warn('unexpected match for', url, entityID);
                             return carry;
                         }
                         carry[entityID[0]] = {url};

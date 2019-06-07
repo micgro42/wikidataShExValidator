@@ -21,10 +21,8 @@ class ShExCParser {
         const meta = {};
         try {
             const parsed = parseShEx(shExCText, meta);
-            // console.log(parsed, meta);
             return new ShExCParserResponse(parsed, null);
         } catch (e) {
-            // console.table(Object.entries(e).map(([key, value]) => [key, value, typeof value]));
             return new ShExCParserResponse(null, e);
         }
     }
