@@ -9,6 +9,10 @@
         <textarea
                 rows="10"
                 class="textarea"
+                spellcheck="false"
+                autocomplete="off"
+                data-gramm="false"
+                autocapitalize="none"
                 cols="72"
                 name="query"
                 id="query"
