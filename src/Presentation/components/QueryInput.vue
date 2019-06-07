@@ -4,8 +4,7 @@
                 for="query"
                 class="label"
         >SPARQL Query</label>
-        <p class="help">Enter query for Items to check. Query is executed after textarea has been changed and
-            de-selected</p>
+        <p class="help">Enter query for Items to check.</p>
         <div class="control">
         <textarea
                 rows="10"
@@ -13,20 +12,31 @@
                 cols="72"
                 name="query"
                 id="query"
-                v-on:change="handleQueryChange"
+                v-model="Query"
         ></textarea>
+        </div>
+        <div class="control">
+            <button
+                class="button is-primary"
+                v-on:click="handleQueryChange"
+            >
+                Fetch Entites
+            </button>
         </div>
     </div>
 </template>
 
 <script>
-    import { mapActions } from 'vuex';
+    import {mapActions} from 'vuex';
 
     export default {
         name: 'QueryInput',
+        data() {
+            return { Query: '' };
+        },
         methods: {
             handleQueryChange(event) {
-                this.updateQueryInStore(event.target.value);
+                this.updateQueryInStore(this.Query);
             },
             ...mapActions({
                 updateQueryInStore: 'setQuery',
