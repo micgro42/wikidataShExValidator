@@ -1,4 +1,4 @@
 export enum ValidationStatus {
-    Conformant = 'CONFORMANT',
-    Nonconformant = 'NONCONFORMANT',
+  Conformant = 'CONFORMANT',
+  Nonconformant = 'NONCONFORMANT',
 }

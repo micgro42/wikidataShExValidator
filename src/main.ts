@@ -7,12 +7,12 @@ Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
 const router = new VueRouter({
-    mode: 'history',
-    routes: [],
+  mode: 'history',
+  routes: [],
 });
 
 new Vue({
-    router,
-    store,
-    render: (h) => h(App),
+  router,
+  store,
+  render: h => h(App),
 }).$mount('#app');
