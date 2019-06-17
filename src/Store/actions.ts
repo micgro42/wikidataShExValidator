@@ -62,6 +62,11 @@ export default {
       });
   },
   updateSchemaId({ commit }: { commit: Commit }, schemaId: string) {
+    if (!schemaId.match(/^E[1-9]\d*$/)) {
+      commit('setShExCStatus', ShExCStatus.loadingError);
+      return;
+    }
+
     commit('setShExCStatus', ShExCStatus.loading);
 
     const url =

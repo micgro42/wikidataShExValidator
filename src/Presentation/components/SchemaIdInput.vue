@@ -37,7 +37,6 @@ export default {
     }
 
     if (q.schmeaId) {
-      // FIXME: apply some validation here
       this.updateSchemaId(q.schemaId);
       return { SchemaId: q.schemaId };
     }
@@ -49,7 +48,6 @@ export default {
       updateSchemaId: 'updateSchemaId',
     }),
     ShExChanged() {
-      // ToDo: validate before trying to fetch
       this.$router.push({ query: { schemaId: this.SchemaId } });
       this.updateSchemaId(this.SchemaId);
     },
