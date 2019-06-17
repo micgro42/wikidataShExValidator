@@ -10,6 +10,7 @@ import ShExCParserRequest from '@/ShExCParser/ShExCParserRequest';
 import * as log from 'loglevel';
 import { Commit } from 'vuex';
 import StateInterface from '@/Store/StateInterface';
+import router from '../Presentation/router';
 
 export default {
   setQuery(
@@ -66,6 +67,8 @@ export default {
       commit('setShExCStatus', ShExCStatus.loadingError);
       return;
     }
+
+    router.push({ query: { schemaId: schemaId } });
 
     commit('setShExCStatus', ShExCStatus.loading);
 

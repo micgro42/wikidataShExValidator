@@ -36,7 +36,7 @@ export default {
       return { SchemaId: schemaId };
     }
 
-    if (q.schmeaId) {
+    if (q.schemaId) {
       this.updateSchemaId(q.schemaId);
       return { SchemaId: q.schemaId };
     }
@@ -48,7 +48,6 @@ export default {
       updateSchemaId: 'updateSchemaId',
     }),
     ShExChanged() {
-      this.$router.push({ query: { schemaId: this.SchemaId } });
       this.updateSchemaId(this.SchemaId);
     },
   },
