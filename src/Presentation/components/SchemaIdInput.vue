@@ -1,5 +1,5 @@
 <template>
-  <div class="field">
+  <div>
     <label for="SchmeaIdInput" class="label">
       EntitySchema ID
     </label>
@@ -14,16 +14,12 @@
       />
       <ShExCStatusIcon v-if="hasIcon" />
     </div>
-    <div v-if="parseStatus === 'INVALID'">
-      <ShExCErrors />
-    </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 import { ShExCStatus } from '../../Store/ShExCStatus';
-import ShExCErrors from './ShExCErrors';
 import ShExCStatusIcon from './ShExCStatusIcon';
 
 export default {
@@ -42,7 +38,7 @@ export default {
     }
     return { SchemaId: '' };
   },
-  components: { ShExCStatusIcon, ShExCErrors },
+  components: { ShExCStatusIcon },
   methods: {
     ...mapActions({
       updateSchemaId: 'updateSchemaId',
@@ -52,10 +48,6 @@ export default {
     },
   },
   computed: {
-    // mix the getters into computed with object spread operator
-    ...mapGetters({
-      parseStatus: 'getShExCStatus',
-    }),
     inputClass() {
       let className = 'input';
       switch (this.$store.getters.getShExCStatus) {

@@ -1,7 +1,7 @@
 <template>
   <section class="section" id="app">
     <div class="container">
-      <SchemaIdInput />
+      <SchemaSection />
       <QueryWrapper />
     </div>
   </section>
@@ -9,13 +9,13 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import SchemaIdInput from './components/SchemaIdInput.vue';
+import SchemaSection from './components/SchemaSection.vue';
 import QueryWrapper from './components/QueryWrapper.vue';
 
 @Component({
   components: {
     QueryWrapper,
-    SchemaIdInput,
+    SchemaSection,
   },
 })
 export default class App extends Vue {}
