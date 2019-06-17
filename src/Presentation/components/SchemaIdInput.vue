@@ -1,16 +1,16 @@
 <template>
   <div class="field">
-    <label for="ShExCUrl" class="label">
-      ShExC Url
+    <label for="SchmeaIdInput" class="label">
+      EntitySchema ID
     </label>
     <div :class="controlClass">
       <input
         :class="inputClass"
-        v-model="ShexCUrl"
+        v-model="SchemaId"
         v-on:change="ShExChanged"
         type="url"
-        id="ShExCUrl"
-        placeholder="https://www.wikidata.org/wiki/Special:EntitySchemaText/E123"
+        id="SchmeaIdInput"
+        placeholder="E123"
       />
       <ShExCStatusIcon v-if="hasIcon" />
     </div>
@@ -27,25 +27,31 @@ import ShExCErrors from './ShExCErrors';
 import ShExCStatusIcon from './ShExCStatusIcon';
 
 export default {
-  name: 'ShExCInput',
+  name: 'SchemaIdInput',
   data() {
-    let ShexCUrl = '';
     const q = this.$route.query;
     if (q.schemaURL) {
-      this.updateShExCInStore(q.schemaURL);
-      ShexCUrl = q.schemaURL;
+      const schemaId = q.schemaURL.substring(q.schemaURL.lastIndexOf('E'));
+      this.updateSchemaId(schemaId);
+      return { SchemaId: schemaId };
     }
-    return { ShexCUrl };
+
+    if (q.schmeaId) {
+      // FIXME: apply some validation here
+      this.updateSchemaId(q.schemaId);
+      return { SchemaId: q.schemaId };
+    }
+    return { SchemaId: '' };
   },
   components: { ShExCStatusIcon, ShExCErrors },
   methods: {
     ...mapActions({
-      updateShExCInStore: 'updateShExC',
+      updateSchemaId: 'updateSchemaId',
     }),
     ShExChanged() {
       // ToDo: validate before trying to fetch
-      this.$router.push({ query: { schemaURL: this.ShexCUrl } });
-      this.updateShExCInStore(this.ShexCUrl);
+      this.$router.push({ query: { schemaId: this.SchemaId } });
+      this.updateSchemaId(this.SchemaId);
     },
   },
   computed: {

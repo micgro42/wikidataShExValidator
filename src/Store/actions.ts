@@ -61,14 +61,18 @@ export default {
         commit('setQueryError', reason);
       });
   },
-  updateShExC({ commit }: { commit: Commit }, url: string) {
+  updateSchemaId({ commit }: { commit: Commit }, schemaId: string) {
     commit('setShExCStatus', ShExCStatus.loading);
+
+    const url =
+      'https://www.wikidata.org/wiki/Special:EntitySchemaText/' + schemaId;
 
     fetch(url)
       .then(
         response => response.text(),
         error => {
           // ToDo: ensure html status and content type
+          //  and a useful error message to the user
           commit('setShExCStatus', ShExCStatus.loadingError);
           throw error;
         },
