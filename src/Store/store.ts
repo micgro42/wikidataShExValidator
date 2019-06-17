@@ -67,6 +67,9 @@ export default new Vuex.Store({
         lineNo,
       };
     },
+    setShExCText(state, text) {
+      state.ShExC = text;
+    },
     setParsedSchema(state, schemaParsed) {
       state.ShemaParsed = schemaParsed;
     },

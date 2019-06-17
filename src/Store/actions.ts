@@ -87,6 +87,7 @@ export default {
       )
       .then(ShExCText => {
         commit('setShExCStatus', ShExCStatus.inProgress);
+        commit('setShExCText', ShExCText);
         const parser = new ShExCParser();
         const response = parser.parse(new ShExCParserRequest(ShExCText));
 
