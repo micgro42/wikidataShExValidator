@@ -41,19 +41,19 @@ export default {
   data() {
     return { Query: '' };
   },
+  computed: {
+    // mix the getters into computed with object spread operator
+    ...mapGetters({
+      parseStatus: 'getShExCStatus',
+      getQueryError: 'getQueryError',
+    }),
+  },
   methods: {
     handleQueryChange(event) {
       this.updateQueryInStore(this.Query);
     },
     ...mapActions({
       updateQueryInStore: 'setQuery',
-    }),
-  },
-  computed: {
-    // mix the getters into computed with object spread operator
-    ...mapGetters({
-      parseStatus: 'getShExCStatus',
-      getQueryError: 'getQueryError',
     }),
   },
 };

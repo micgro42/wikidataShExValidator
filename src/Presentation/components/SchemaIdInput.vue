@@ -24,6 +24,7 @@ import ShExCStatusIcon from './ShExCStatusIcon';
 
 export default {
   name: 'SchemaIdInput',
+  components: { ShExCStatusIcon },
   data() {
     const q = this.$route.query;
     if (q.schemaURL) {
@@ -37,15 +38,6 @@ export default {
       return { SchemaId: q.schemaId };
     }
     return { SchemaId: '' };
-  },
-  components: { ShExCStatusIcon },
-  methods: {
-    ...mapActions({
-      updateSchemaId: 'updateSchemaId',
-    }),
-    ShExChanged() {
-      this.updateSchemaId(this.SchemaId);
-    },
   },
   computed: {
     inputClass() {
@@ -99,6 +91,14 @@ export default {
         ShExCStatus.valid,
         ShExCStatus.invalid,
       ].includes(this.$store.getters.getShExCStatus);
+    },
+  },
+  methods: {
+    ...mapActions({
+      updateSchemaId: 'updateSchemaId',
+    }),
+    ShExChanged() {
+      this.updateSchemaId(this.SchemaId);
     },
   },
 };
