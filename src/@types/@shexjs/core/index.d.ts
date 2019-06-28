@@ -6,7 +6,7 @@ declare module '@shexjs/core' {
     construct(
       schema: unknown, // actually ParsedSchema from @shexjs/parser
       options?: { lax?: boolean; diagnose?: boolean; results?: string },
-    ): ShExValidator_constructor;
+    ): ShExValidator_constructor; // eslint-disable-line @typescript-eslint/camelcase
   };
 
   export const Util: {
@@ -18,7 +18,7 @@ declare module '@shexjs/core' {
     errsToSimple(val: Appinfo, node?: unknown, shape?: unknown): string[];
   };
 
-  /* tslint:disable-next-line */
+  // eslint-disable-next-line
   export class ShExValidator_constructor {
     public validate(
       db: Database,
@@ -40,7 +40,9 @@ declare module '@shexjs/core' {
     shape: object;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface Appinfo {}
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface Database {}
 }
