@@ -3,10 +3,10 @@
     <ul class="list">
       <EntityListItem
         v-for="entity in entities"
-        v-bind:key="entity.url"
-        v-bind:status="entity.status"
-        v-bind:url="entity.url"
-        v-bind:error="entity.error"
+        :key="entity.url"
+        :status="entity.status"
+        :url="entity.url"
+        :error="entity.error"
       />
     </ul>
   </div>
