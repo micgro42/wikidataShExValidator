@@ -1,5 +1,5 @@
 class SparqlFetcherRequest {
-  constructor(public query: string) {}
+  public constructor(public query: string) {}
 }
 
 export default SparqlFetcherRequest;

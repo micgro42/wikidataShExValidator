@@ -4,7 +4,7 @@ class ShExCParserResponse {
     lineNo: number;
   } = null;
 
-  constructor(public parsedSchema: any, error: any) {
+  public constructor(public parsedSchema: any, error: any) {
     if (error) {
       this.error = {
         message: error.message,

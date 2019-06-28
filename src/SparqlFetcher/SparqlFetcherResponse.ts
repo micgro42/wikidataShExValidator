@@ -1,5 +1,5 @@
 class SparqlFetcherResponse {
-  constructor(public entities: string[]) {}
+  public constructor(public entities: string[]) {}
 }
 
 export default SparqlFetcherResponse;

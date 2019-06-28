@@ -1,3 +1,3 @@
 export default class EntityValidatorRequest {
-  constructor(public entityId: string, public entityUrl: string) {}
+  public constructor(public entityId: string, public entityUrl: string) {}
 }
