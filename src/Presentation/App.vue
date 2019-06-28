@@ -1,5 +1,5 @@
 <template>
-  <section class="section" id="app">
+  <section id="app" class="section">
     <div class="container">
       <SchemaSection />
       <QueryWrapper />

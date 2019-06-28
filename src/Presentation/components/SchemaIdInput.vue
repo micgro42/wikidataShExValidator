@@ -5,12 +5,12 @@
     </label>
     <div :class="controlClass">
       <input
-        :class="inputClass"
-        v-model="SchemaId"
-        v-on:change="ShExChanged"
-        type="url"
         id="SchmeaIdInput"
+        v-model="SchemaId"
+        :class="inputClass"
+        type="url"
         placeholder="E123"
+        v-on:change="ShExChanged"
       />
       <ShExCStatusIcon v-if="hasIcon" />
     </div>

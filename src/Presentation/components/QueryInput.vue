@@ -4,6 +4,8 @@
     <p class="help">Enter query for Items to check.</p>
     <div class="control">
       <textarea
+        id="query"
+        v-model="Query"
         rows="10"
         class="textarea"
         spellcheck="false"
@@ -12,8 +14,6 @@
         autocapitalize="none"
         cols="72"
         name="query"
-        id="query"
-        v-model="Query"
         placeholder="#Cats
 SELECT ?item
 WHERE
