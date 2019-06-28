@@ -9,7 +9,6 @@ import { ShExCStatus } from '../../Store/ShExCStatus';
 
 export default {
   name: 'ShExCStatusIcon',
-  props: ['status'],
   computed: {
     wrapperClass() {
       const classes = ['icon', 'is-small', 'is-right'];

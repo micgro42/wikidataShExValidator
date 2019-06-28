@@ -12,7 +12,17 @@ import { ValidationStatus } from '../../Store/ValidationStatus';
 
 export default {
   name: 'EntityListItem',
-  props: ['url', 'status', 'error'],
+  props: {
+    url: {
+      type: String,
+      required: true,
+    },
+    status: ValidationStatus,
+    error: {
+      type: String,
+      default: '',
+    },
+  },
   computed: {
     hasErrors() {
       return this.status === ValidationStatus.Nonconformant;
