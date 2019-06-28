@@ -1,4 +1,4 @@
-import ShExParser from '@shexjs/parser';
+import ShExParser, { ParsedSchema } from '@shexjs/parser';
 import ShExCParserRequest from './ShExCParserRequest';
 import ShExCParserResponse from './ShExCParserResponse';
 
@@ -13,7 +13,7 @@ class ShExCParser {
     function parseShEx(
       text: string,
       meta: { base?: string; prefixes?: object },
-    ) {
+    ): ParsedSchema {
       const shexParser = ShExParser.construct('');
       const ret = shexParser.parse(text);
       meta.base = '';

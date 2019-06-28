@@ -4,7 +4,7 @@ declare module '@shexjs/core' {
   export const Validator: {
     start: object;
     construct(
-      schema: any,
+      schema: unknown, // actually ParsedSchema from @shexjs/parser
       options?: { lax?: boolean; diagnose?: boolean; results?: string },
     ): ShExValidator_constructor;
   };
@@ -13,25 +13,34 @@ declare module '@shexjs/core' {
     /**
      * emulate N3Store().getQuads() with additional parm.
      */
-    makeQueryDB(endpoint: string, queryTracker?: any): any;
+    makeQueryDB(endpoint: string, queryTracker?: unknown): Database;
 
-    errsToSimple(val: any, node?: any, shape?: any): string[];
+    errsToSimple(val: Appinfo, node?: unknown, shape?: unknown): string[];
   };
 
   /* tslint:disable-next-line */
   export class ShExValidator_constructor {
     public validate(
-      db: any,
-      point: any,
-      label?: any,
-      tracker?: any,
-      seen?: any,
-      subGraph?: any,
-    ): {
-      schema: any;
-      data: any;
-      schemaMeta: any;
-      dataMeta: any;
-    };
+      db: Database,
+      point: ShExPoint[],
+      label?: unknown,
+      tracker?: unknown,
+      seen?: unknown,
+      subGraph?: unknown,
+    ): ValidationResult[];
   }
+
+  export interface ValidationResult {
+    appinfo: Appinfo;
+    status: string;
+  }
+
+  export interface ShExPoint {
+    node: string;
+    shape: object;
+  }
+
+  interface Appinfo {}
+
+  interface Database {}
 }

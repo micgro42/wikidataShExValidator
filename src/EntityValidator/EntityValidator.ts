@@ -1,12 +1,13 @@
-import { Validator, Util } from '@shexjs/core';
+import { Validator, Util, ValidationResult } from '@shexjs/core';
 import EntityValidatorResponse from '@/EntityValidator/EntityValidatorResponse';
 import EntityValidatorRequest from '@/EntityValidator/EntityValidatorRequest';
 import { ValidationStatus } from '@/Store/ValidationStatus';
+import { ParsedSchema } from '@shexjs/parser';
 
 export default class EntityValidator {
-  private parsedSchema: any;
+  private parsedSchema: ParsedSchema;
 
-  public constructor(parsedSchema: any) {
+  public constructor(parsedSchema: ParsedSchema) {
     this.parsedSchema = parsedSchema;
   }
 
@@ -15,13 +16,16 @@ export default class EntityValidator {
   ): Promise<EntityValidatorResponse> {
     const queryDB = Util.makeQueryDB('https://query.wikidata.org/sparql');
 
-    return new Promise(resolve => {
-      resolve(
-        Validator.construct(this.parsedSchema, { results: 'api' }).validate(
-          queryDB,
-          [{ node: request.entityUrl, shape: Validator.start }],
-        ),
-      );
+    return new Promise<ValidationResult[]>(resolve => {
+      const validationResults: ValidationResult[] = Validator.construct(
+        this.parsedSchema,
+        {
+          results: 'api',
+        },
+      ).validate(queryDB, [
+        { node: request.entityUrl, shape: Validator.start },
+      ]);
+      resolve(validationResults);
     })
       .then(this.buildResponseFromValidationResult.bind(this))
       .catch(reason => {
@@ -34,7 +38,7 @@ export default class EntityValidator {
   }
 
   private buildResponseFromValidationResult(
-    validationResults: any,
+    validationResults: ValidationResult[],
   ): EntityValidatorResponse {
     return new EntityValidatorResponse(
       this.getResultStatus(validationResults[0]),
@@ -42,14 +46,14 @@ export default class EntityValidator {
     );
   }
 
-  private getResultStatus(result: any): ValidationStatus {
+  private getResultStatus(result: ValidationResult): ValidationStatus {
     if (result.status === 'conformant') {
       return ValidationStatus.Conformant;
     }
     return ValidationStatus.Nonconformant;
   }
 
-  private getResultErrors(result: any): string {
+  private getResultErrors(result: ValidationResult): string {
     if (result.status === 'conformant') {
       return '';
     }

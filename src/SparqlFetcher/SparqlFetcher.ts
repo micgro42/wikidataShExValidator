@@ -34,6 +34,9 @@ class SparqlFetcher {
 
   public parseItemsFromResponse(response: {
     head: { vars: string[] };
+
+    // this might be any kind of result, so we have to iterarte over the keys and thus need any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     results: { bindings: any[] };
   }): string[] {
     if (response.results.bindings.length === 0) {

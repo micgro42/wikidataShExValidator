@@ -1,12 +1,17 @@
+import { ParsedSchema, ParserError } from '@shexjs/parser';
+
 class ShExCParserResponse {
-  public parsedSchema: any;
+  public parsedSchema: ParsedSchema | null;
 
   public error: null | {
     message: string;
     lineNo: number;
   } = null;
 
-  public constructor(parsedSchema: any, error: any) {
+  public constructor(
+    parsedSchema: ParsedSchema | null,
+    error: ParserError | null,
+  ) {
     this.parsedSchema = parsedSchema;
 
     if (error) {

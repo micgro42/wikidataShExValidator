@@ -50,7 +50,7 @@ export default new Vuex.Store({
     },
     setEntityData(
       state,
-      payload: { id: string; status: ValidationStatus; error: any },
+      payload: { id: string; status: ValidationStatus; error: string },
     ) {
       state.QueryEntities[payload.id] = {
         ...state.QueryEntities[payload.id],
