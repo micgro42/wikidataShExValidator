@@ -1,8 +1,8 @@
 <template>
   <li class="list-item">
-    <a :href="this.url" class="is-success">{{ this.url }}</a>
-    <span v-if="isConformant" class="tag is-success">{{ this.status }}</span>
-    <span v-if="hasErrors" class="tag is-danger">{{ this.status }}</span>
+    <a :href="url" class="is-success">{{ url }}</a>
+    <span v-if="isConformant" class="tag is-success">{{ status }}</span>
+    <span v-if="hasErrors" class="tag is-danger">{{ status }}</span>
     <pre v-if="hasErrors">{{ error }}</pre>
   </li>
 </template>
