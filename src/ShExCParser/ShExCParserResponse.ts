@@ -1,10 +1,14 @@
 class ShExCParserResponse {
+  public parsedSchema: any;
+
   public error: null | {
     message: string;
     lineNo: number;
   } = null;
 
-  public constructor(public parsedSchema: any, error: any) {
+  public constructor(parsedSchema: any, error: any) {
+    this.parsedSchema = parsedSchema;
+
     if (error) {
       this.error = {
         message: error.message,

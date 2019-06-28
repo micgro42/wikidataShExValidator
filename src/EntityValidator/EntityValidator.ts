@@ -4,7 +4,11 @@ import EntityValidatorRequest from '@/EntityValidator/EntityValidatorRequest';
 import { ValidationStatus } from '@/Store/ValidationStatus';
 
 export default class EntityValidator {
-  public constructor(private parsedSchema: any) {}
+  private parsedSchema: any;
+
+  public constructor(parsedSchema: any) {
+    this.parsedSchema = parsedSchema;
+  }
 
   public async validate(
     request: EntityValidatorRequest,

@@ -1,5 +1,9 @@
 class ShExCParserRequest {
-  public constructor(public text: string) {}
+  public text: string;
+
+  public constructor(text: string) {
+    this.text = text;
+  }
 
   public getText(): string {
     return this.text;
