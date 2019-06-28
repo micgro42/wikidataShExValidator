@@ -49,7 +49,7 @@ export default {
     }),
   },
   methods: {
-    handleQueryChange(event) {
+    handleQueryChange() {
       this.updateQueryInStore(this.Query);
     },
     ...mapActions({
