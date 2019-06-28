@@ -23,7 +23,7 @@ WHERE
       ></textarea>
     </div>
     <div class="control">
-      <button class="button is-primary" v-on:click="handleQueryChange">
+      <button class="button is-primary" @click="handleQueryChange">
         Fetch Entites
       </button>
     </div>

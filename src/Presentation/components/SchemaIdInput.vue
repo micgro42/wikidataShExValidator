@@ -10,7 +10,7 @@
         :class="inputClass"
         type="url"
         placeholder="E123"
-        v-on:change="ShExChanged"
+        @change="ShExChanged"
       />
       <ShExCStatusIcon v-if="hasIcon" />
     </div>
