@@ -46,10 +46,12 @@ export default {
         if (state.ShExCParseError.message.length !== 0) {
           return;
         }
-        const validator = new EntityValidator(state.ShemaParsed);
+        const validator = new EntityValidator(
+          'https://query.wikidata.org/sparql',
+        );
         for (const [id, { url }] of Object.entries(state.QueryEntities)) {
           const response = await validator.validate(
-            new EntityValidatorRequest(id, url),
+            new EntityValidatorRequest(state.ShemaParsed, id, url),
           );
           commit('setEntityData', {
             id,

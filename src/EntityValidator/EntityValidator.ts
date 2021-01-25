@@ -2,23 +2,22 @@ import { Validator, Util, ValidationResult } from '@shexjs/core';
 import EntityValidatorResponse from '@/EntityValidator/EntityValidatorResponse';
 import EntityValidatorRequest from '@/EntityValidator/EntityValidatorRequest';
 import { ValidationStatus } from '@/Store/ValidationStatus';
-import { ParsedSchema } from '@shexjs/parser';
 
 export default class EntityValidator {
-  private parsedSchema: ParsedSchema;
+  private endpoint: string;
 
-  public constructor(parsedSchema: ParsedSchema) {
-    this.parsedSchema = parsedSchema;
+  public constructor(endpoint: string) {
+    this.endpoint = endpoint;
   }
 
   public async validate(
     request: EntityValidatorRequest,
   ): Promise<EntityValidatorResponse> {
-    const queryDB = Util.makeQueryDB('https://query.wikidata.org/sparql');
+    const queryDB = Util.makeQueryDB(this.endpoint);
 
     return new Promise<ValidationResult[]>(resolve => {
       const validationResults: ValidationResult[] = Validator.construct(
-        this.parsedSchema,
+        request.parsedSchema,
         {
           results: 'api',
         },

@@ -4,8 +4,9 @@ import { ValidationStatus } from '@/Store/ValidationStatus';
 
 describe('EntityValidator', () => {
   it('fails validating against empty schema', async () => {
-    const validator = new EntityValidator({});
+    const validator = new EntityValidator('https://example.com');
     const validationRequest = new EntityValidatorRequest(
+      {},
       'Q1',
       'https://exmaple.com',
     );
