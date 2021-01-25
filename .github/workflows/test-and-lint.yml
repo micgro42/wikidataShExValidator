@@ -11,7 +11,7 @@ jobs:
       - name: Set up node
         uses: actions/setup-node@v1
         with:
-          node-version: '14.x'
+          node-version: '15.x'
       - name: Install
         run: yarn install
       - name: Lint
@@ -26,3 +26,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: sonar-scanner
              -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+             -Dsonar.host.url=https://sonarcloud.io/
