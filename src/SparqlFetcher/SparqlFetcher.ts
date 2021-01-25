@@ -14,7 +14,6 @@ class SparqlFetcher {
       .then(async response => {
         if (response.status !== 200) {
           const sparqlErrorText = await response.text();
-          // tslint:disable-next-line:quotemark
           const mainErrorLines = sparqlErrorText.split('\n').filter(line => {
             return line.includes('MalformedQueryException');
           });

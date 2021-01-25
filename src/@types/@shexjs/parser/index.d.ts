@@ -3,8 +3,8 @@
 declare module '@shexjs/parser' {
   export function construct(
     baseIRI: string,
-    prefixes?: object,
-    schemaOptions?: object,
+    prefixes?: Record<string, unknown>,
+    schemaOptions?: Record<string, unknown>,
   ): ShExJison;
 
   export class ShExJison {
@@ -12,7 +12,7 @@ declare module '@shexjs/parser' {
   }
 
   interface ParsedSchema {
-    prefixes?: object;
+    prefixes?: Record<string, unknown>;
   }
 
   interface ParserError extends Error {

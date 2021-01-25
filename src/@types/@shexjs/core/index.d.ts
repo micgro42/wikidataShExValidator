@@ -2,11 +2,11 @@
 
 declare module '@shexjs/core' {
   export const Validator: {
-    start: object;
+    start: Record<string, unknown>;
     construct(
       schema: unknown, // actually ParsedSchema from @shexjs/parser
       options?: { lax?: boolean; diagnose?: boolean; results?: string },
-    ): ShExValidator_constructor; // eslint-disable-line @typescript-eslint/camelcase
+    ): ShExValidator_constructor;
   };
 
   export const Util: {
@@ -37,7 +37,7 @@ declare module '@shexjs/core' {
 
   export interface ShExPoint {
     node: string;
-    shape: object;
+    shape: Record<string, unknown>;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-interface

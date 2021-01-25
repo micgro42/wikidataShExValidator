@@ -9,10 +9,9 @@ class ShExCParser {
   public parse(request: ShExCParserRequest): ShExCParserResponse {
     const shExCText = request.getText();
 
-    // tslint:disable-next-line:no-shadowed-variable
     function parseShEx(
       text: string,
-      meta: { base?: string; prefixes?: object },
+      meta: { base?: string; prefixes?: Record<string, unknown> },
     ): ParsedSchema {
       const shexParser = ShExParser.construct('');
       const ret = shexParser.parse(text);

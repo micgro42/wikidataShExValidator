@@ -17,18 +17,12 @@ describe('ShExCParser', () => {
 
     const response = parser.parse(request);
 
-    expect(response.error !== null).toBeTruthy();
-    if (response.error !== null) {
-      expect(response.error.lineNo).toBe(1);
-      expect(response.error.message).toBe(
-        /* tslint:disable */
-        `(1): Parse error on line 1:
+    expect(response.error !== null).toBe(true);
+    expect(response.error?.message).toBe(
+      `Parse error on line 1:
 not a schema
 ^
-Expecting 'EOF', 'IT_BASE', 'IRIREF', 'IT_PREFIX', 'PNAME_NS', 'IT_IMPORT', 'IT_start', 'IT_ABSTRACT', '%', 'PNAME_LN', 'BLANK_NODE_LABEL', got 'unexpected word "not"'
-`,
-        /* tslint:enable */
-      );
-    }
+Expecting 'EOF', 'IT_BASE', 'IRIREF', 'IT_PREFIX', 'PNAME_NS', 'IT_IMPORT', 'IT_start', 'IT_ABSTRACT', '%', 'PNAME_LN', 'BLANK_NODE_LABEL', got 'unexpected word "not"'`,
+    );
   });
 });

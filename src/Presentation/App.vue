@@ -13,6 +13,7 @@ import SchemaSection from './components/SchemaSection.vue';
 import QueryWrapper from './components/QueryWrapper.vue';
 
 @Component({
+  // eslint-disable-next-line no-undef
   components: {
     QueryWrapper,
     SchemaSection,

@@ -8,8 +8,6 @@ import actions from './actions';
 
 Vue.use(Vuex);
 
-// Todo: implement types for the store properly and remove the eslint-disable
-/* eslint-disable @typescript-eslint/no-object-literal-type-assertion */
 export default new Vuex.Store({
   state: {
     Query: '',
