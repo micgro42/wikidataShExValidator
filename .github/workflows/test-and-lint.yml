@@ -27,4 +27,3 @@ jobs:
         run: sonar-scanner
              -Dsonar.login=${{ secrets.SONAR_TOKEN }}
              -Dsonar.host.url=https://sonarcloud.io/
-             -X
