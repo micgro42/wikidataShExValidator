@@ -16,7 +16,7 @@ export default {
   setQuery(
     { commit, state }: { commit: Commit; state: StateInterface },
     query: string,
-  ) {
+  ): void {
     commit('setQuery', { query });
     commit('setQueryEntities', { entities: {} });
     commit('setQueryError', '');
@@ -64,7 +64,7 @@ export default {
         commit('setQueryError', reason);
       });
   },
-  updateSchemaId({ commit }: { commit: Commit }, schemaId: string) {
+  updateSchemaId({ commit }: { commit: Commit }, schemaId: string): void {
     if (!schemaId.match(/^E[1-9]\d*$/)) {
       commit('setShExCStatus', ShExCStatus.loadingError);
       return;
