@@ -1,4 +1,4 @@
-import ShExParser, { ParsedSchema } from '@shexjs/parser';
+import ShExParser, { ParsedSchema, ParserError } from '@shexjs/parser';
 import ShExCParserRequest from './ShExCParserRequest';
 import ShExCParserResponse from './ShExCParserResponse';
 
@@ -25,7 +25,7 @@ class ShExCParser {
       const parsed = parseShEx(shExCText, meta);
       return new ShExCParserResponse(parsed, null);
     } catch (e) {
-      return new ShExCParserResponse(null, e);
+      return new ShExCParserResponse(null, e as ParserError);
     }
   }
 }

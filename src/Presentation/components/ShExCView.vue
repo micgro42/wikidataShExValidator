@@ -1,5 +1,5 @@
 <template>
-  <pre>{{ this.$store.state.ShExC }}</pre>
+  <pre>{{ $store.state.ShExC }}</pre>
 </template>
 
 <script>

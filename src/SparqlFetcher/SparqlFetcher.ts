@@ -11,10 +11,10 @@ class SparqlFetcher {
     const apiResponse = await fetch(
       this.QUERY_URL + encodeURIComponent(request.query),
     )
-      .then(async response => {
+      .then(async (response) => {
         if (response.status !== 200) {
           const sparqlErrorText = await response.text();
-          const mainErrorLines = sparqlErrorText.split('\n').filter(line => {
+          const mainErrorLines = sparqlErrorText.split('\n').filter((line) => {
             return line.includes('MalformedQueryException');
           });
           if (mainErrorLines.length) {
@@ -24,7 +24,7 @@ class SparqlFetcher {
         }
         return response.json();
       })
-      .then(items => {
+      .then((items) => {
         return items;
       });
 
@@ -42,7 +42,7 @@ class SparqlFetcher {
       return [];
     }
     const responseItems = response.results.bindings;
-    return responseItems.map(respItem => {
+    return responseItems.map((respItem) => {
       for (const key in respItem) {
         if (respItem[key].type !== 'uri') {
           continue;

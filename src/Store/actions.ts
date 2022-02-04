@@ -60,7 +60,7 @@ export default {
           });
         }
       })
-      .catch(reason => {
+      .catch((reason) => {
         commit('setQueryError', reason);
       });
   },
@@ -79,15 +79,15 @@ export default {
 
     fetch(url)
       .then(
-        response => response.text(),
-        error => {
+        (response) => response.text(),
+        (error) => {
           // ToDo: ensure html status and content type
           //  and a useful error message to the user
           commit('setShExCStatus', ShExCStatus.loadingError);
           throw error;
         },
       )
-      .then(ShExCText => {
+      .then((ShExCText) => {
         commit('setShExCStatus', ShExCStatus.inProgress);
         commit('setShExCText', ShExCText);
         const parser = new ShExCParser();
@@ -106,6 +106,6 @@ export default {
           commit('setParsedSchema', response.parsedSchema);
         }
       })
-      .catch(error => log.error(error));
+      .catch((error) => log.error(error));
   },
 };

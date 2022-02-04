@@ -15,7 +15,7 @@ export default class EntityValidator {
   ): Promise<EntityValidatorResponse> {
     const queryDB = Util.makeQueryDB(this.endpoint);
 
-    return new Promise<ValidationResult[]>(resolve => {
+    return new Promise<ValidationResult[]>((resolve) => {
       const validationResults: ValidationResult[] = Validator.construct(
         request.parsedSchema,
         {
@@ -27,7 +27,7 @@ export default class EntityValidator {
       resolve(validationResults);
     })
       .then(this.buildResponseFromValidationResult.bind(this))
-      .catch(reason => {
+      .catch((reason) => {
         // This might happen if the ShExC has no "start" directive
         return new EntityValidatorResponse(
           ValidationStatus.Nonconformant,

@@ -1,8 +1,6 @@
 <template>
   <div>
-    <label for="SchmeaIdInput" class="label">
-      EntitySchema ID
-    </label>
+    <label for="SchmeaIdInput" class="label"> EntitySchema ID </label>
     <div :class="controlClass">
       <input
         id="SchmeaIdInput"
